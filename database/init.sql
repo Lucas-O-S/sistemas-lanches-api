@@ -3,5 +3,6 @@ BEGIN
     CREATE DATABASE SistemasLanches;
 END
 
+go
 
 USE SistemasLanches;
