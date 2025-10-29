@@ -7,7 +7,7 @@ import { Col } from "sequelize/types/utils";
     tableName: "tb_aluno",
     timestamps: false
 })
-export class Aluno extends Model<Aluno>{
+export class AlunoModel extends Model<AlunoModel>{
     
     @Column({
         type: DataType.INTEGER,
@@ -17,6 +17,15 @@ export class Aluno extends Model<Aluno>{
         unique:true
     })
     id:number;
+
+
+    
+    @Column({
+        type: DataType.STRING(255),
+        allowNull: false
+    })
+    ra : string;
+
 
     @Column({
         type: DataType.STRING(255),
