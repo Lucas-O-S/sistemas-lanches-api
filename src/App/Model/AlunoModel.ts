@@ -1,7 +1,4 @@
-import { timestamp } from "rxjs";
-import { Model } from "sequelize";
-import { AllowNull, Column, DataType, Table } from "sequelize-typescript";
-import { Col } from "sequelize/types/utils";
+import { AllowNull, Column, DataType, Model, Table } from "sequelize-typescript";
 
 @Table({
     tableName: "tb_aluno",
@@ -34,7 +31,7 @@ export class AlunoModel extends Model<AlunoModel>{
     nome : string;
 
     @Column({
-        type: DataType.BLOB(), 
+        type: DataType.BLOB, 
      })
     image: Buffer;
 
