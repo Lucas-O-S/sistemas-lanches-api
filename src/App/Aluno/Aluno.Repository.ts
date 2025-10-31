@@ -20,12 +20,12 @@ export class AlunoRepository {
         return affectedRows > 0;
     }
     
-    async get(id : number) : Promise<void>{
-        this.model.findByPk(id);
+    async get(id : number) : Promise<AlunoDto>{
+        return this.model.findByPk(id);
     }
     
-    async getAll() : Promise<void>{
-        this.model.findAll();
+    async getAll() : Promise<AlunoDto[]>{
+        return this.model.findAll();
     }
 
     

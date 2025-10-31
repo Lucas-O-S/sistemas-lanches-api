@@ -22,10 +22,9 @@ export class AlunoController {
     @UseInterceptors(FileInterceptor('imagem'))
     async create(@Body() dto: AlunoDto, @UploadedFile() file: Express.Multer.File) : Promise<ApiResponseInterface> {
         try{
-            console.log(dto);
 
-            dto.image = file.buffer;
-
+            if (file) dto.image = file.buffer;
+            
             const result = await this.service.create(dto);
 
             return {
@@ -50,11 +49,11 @@ export class AlunoController {
     @ApiResponse({status: 201, description: "Aluno criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     @UseInterceptors(FileInterceptor('imagem'))
-    async Update(@Param("Id", ParseIntPipe) id : number, @Body() dto: AlunoDto, @UploadedFile() file: Express.Multer.File) : Promise<ApiResponseInterface> {
+    async update(@Param("Id", ParseIntPipe) id : number, @Body() dto: AlunoDto, @UploadedFile() file: Express.Multer.File) : Promise<ApiResponseInterface> {
         try{
             console.log(dto);
 
-            dto.image = file.buffer ?? null;
+            dto.image = file ? file.buffer : null;
 
             const result = await this.service.create(dto);
 

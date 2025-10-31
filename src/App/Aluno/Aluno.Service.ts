@@ -23,4 +23,17 @@ export class AlunoService {
         
     }
 
+    async get(id : number) : Promise<AlunoDto>{
+        
+
+        return await this.repository.get(id);
+        
+    }
+    async getAll() : Promise<AlunoDto[]>{
+        
+
+        return await this.repository.getAll();
+        
+    }
+
 }
