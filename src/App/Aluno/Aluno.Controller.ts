@@ -1,5 +1,5 @@
-import { Body, Controller, Param, ParseIntPipe, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { ApiBody, ApiConsumes, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, DefaultValuePipe, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AlunoService } from "./Aluno.Service";
 import { AlunoDto } from "./dto/aluno.dto";
 import { ApiResponseInterface } from "../Interface/ApiResponseInterface";
@@ -23,8 +23,10 @@ export class AlunoController {
     async create(@Body() dto: AlunoDto, @UploadedFile() file: Express.Multer.File) : Promise<ApiResponseInterface> {
         try{
 
-            if (file) dto.image = file.buffer;
+            if (file) dto.imagem = file.buffer;
             
+            else throw new Error("Imagem é obrigatória");
+
             const result = await this.service.create(dto);
 
             return {
@@ -46,20 +48,20 @@ export class AlunoController {
     @Put(":Id")
     @ApiConsumes('multipart/form-data')
     @ApiBody(AlunoSchema)
-    @ApiResponse({status: 201, description: "Aluno criado com sucesso"})
+    @ApiResponse({status: 201, description: "Aluno atualizadp com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     @UseInterceptors(FileInterceptor('imagem'))
     async update(@Param("Id", ParseIntPipe) id : number, @Body() dto: AlunoDto, @UploadedFile() file: Express.Multer.File) : Promise<ApiResponseInterface> {
         try{
             console.log(dto);
+            if (file) dto.imagem = file.buffer;
+            else throw new Error("Imagem é obrigatória");
 
-            dto.image = file ? file.buffer : null;
-
-            const result = await this.service.create(dto);
+            const result = await this.service.update(dto, id);
 
             return {
                 status: 201,
-                message: 'Usuário registrado com sucesso.',
+                message: 'Usuário atualizado com sucesso.',
                 dataUnit: result,
             } ;
         }
@@ -67,6 +69,61 @@ export class AlunoController {
             return{
                 status: 500,
                 message: 'Erro ao registrar usuário.',
+                error: error.message || error,
+            }
+
+        }
+    }
+
+    @Get(":Id/")
+    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é verdadeiro' })
+    @ApiResponse({status: 201, description: "Aluno criado com sucesso"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async get(
+        @Param("Id", ParseIntPipe) id : number,
+        @Query("BuscaImagem", new DefaultValuePipe(true), ParseBoolPipe) getImage : boolean
+    ) : Promise<ApiResponseInterface> {
+        try{
+
+            const result = await this.service.get(id, getImage);
+
+            return {
+                status: 201,
+                message: 'Busca realizada com sucesso.',
+                dataUnit: result,
+            } ;
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao registrar buscar usuário.',
+                error: error.message || error,
+            }
+
+        }
+    }
+
+    @Get()
+    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é falso' })
+    @ApiResponse({status: 201, description: "Aluno criado com sucesso"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async getAll(
+        @Query("BuscaImagem", new DefaultValuePipe(false), ParseBoolPipe) getImage : boolean
+    ) : Promise<ApiResponseInterface> {
+        try{
+
+            const result = await this.service.getAll(getImage);
+
+            return {
+                status: 201,
+                message: 'Busca Concluida.',
+                dataUnit: result,
+            } ;
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao buscar usuários.',
                 error: error.message || error,
             }
 

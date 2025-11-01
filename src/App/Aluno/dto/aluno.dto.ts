@@ -14,7 +14,6 @@ export class AlunoDto {
     ra: string;
 
     @ApiProperty()
-    @IsNotEmpty({message: "Imagem não pode ser vazio"})
-    image: Buffer;
+    imagem: Buffer;
 
 }

@@ -32,7 +32,9 @@ export class AlunoModel extends Model<AlunoModel>{
 
     @Column({
         type: DataType.BLOB, 
+        allowNull: false
+
      })
-    image: Buffer;
+    imagem: Buffer;
 
 }

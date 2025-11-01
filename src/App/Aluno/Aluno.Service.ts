@@ -23,16 +23,16 @@ export class AlunoService {
         
     }
 
-    async get(id : number) : Promise<AlunoDto>{
+    async get(id : number, getImage: boolean = true) : Promise<AlunoDto>{
         
-
-        return await this.repository.get(id);
+        
+        return (getImage) ? await this.repository.get(id) : await this.repository.getNoImage(id);
         
     }
-    async getAll() : Promise<AlunoDto[]>{
+    async getAll( getImage: boolean = false) : Promise<AlunoDto[]>{
         
 
-        return await this.repository.getAll();
+        return (getImage) ? await this.repository.getAll() : await this.repository.getAllNoImage();
         
     }
 

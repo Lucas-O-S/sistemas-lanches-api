@@ -24,8 +24,16 @@ export class AlunoRepository {
         return this.model.findByPk(id);
     }
     
+    async getAllNoImage() : Promise<AlunoDto[]>{
+        return this.model.findAll({attributes : {exclude: ['imagem']}} );
+    }
+
     async getAll() : Promise<AlunoDto[]>{
         return this.model.findAll();
+    }
+
+    async getNoImage(id : number) {
+        return this.model.findByPk(id, { attributes: { exclude: ['imagem'] } });
     }
 
     
