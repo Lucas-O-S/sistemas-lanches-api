@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { AlunoDto } from "./dto/aluno.dto";
-import { ApiResponseInterface } from "../Interface/ApiResponseInterface";
+import { ApiResponseInterface } from "../../Interface/ApiResponseInterface";
 import { AlunoRepository } from "./Aluno.Repository";
+import { AlunoModel } from "src/App/Model/Aluno.Model";
 
 
 @Injectable()
@@ -9,7 +10,7 @@ export class AlunoService {
 
     constructor( private readonly repository : AlunoRepository ){}
 
-    async create(model : AlunoDto) : Promise<AlunoDto>{
+    async create(model : AlunoDto) : Promise<AlunoModel>{
 
 
         return await this.repository.create(model);
@@ -23,13 +24,13 @@ export class AlunoService {
         
     }
 
-    async get(id : number, getImage: boolean = true) : Promise<AlunoDto>{
+    async get(id : number, getImage: boolean = true) : Promise<AlunoModel>{
         
         
         return (getImage) ? await this.repository.get(id) : await this.repository.getNoImage(id);
         
     }
-    async getAll( getImage: boolean = false) : Promise<AlunoDto[]>{
+    async getAll( getImage: boolean = false) : Promise<AlunoModel[]>{
         
 
         return (getImage) ? await this.repository.getAll() : await this.repository.getAllNoImage();

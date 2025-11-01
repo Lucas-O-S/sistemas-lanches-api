@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AlunoModel } from "../Model/AlunoModel";
+import { AlunoModel } from "../../Model/Aluno.Model";
 import { InjectModel } from "@nestjs/sequelize";
 import { AlunoDto } from "./dto/aluno.dto";
 import { where } from "sequelize";
@@ -20,15 +20,15 @@ export class AlunoRepository {
         return affectedRows > 0;
     }
     
-    async get(id : number) : Promise<AlunoDto>{
+    async get(id : number) : Promise<AlunoModel>{
         return this.model.findByPk(id);
     }
     
-    async getAllNoImage() : Promise<AlunoDto[]>{
+    async getAllNoImage() : Promise<AlunoModel[]>{
         return this.model.findAll({attributes : {exclude: ['imagem']}} );
     }
 
-    async getAll() : Promise<AlunoDto[]>{
+    async getAll() : Promise<AlunoModel[]>{
         return this.model.findAll();
     }
 

@@ -19,7 +19,8 @@ export class AlunoModel extends Model<AlunoModel>{
     
     @Column({
         type: DataType.STRING(255),
-        allowNull: false
+        allowNull: false,
+        unique: true,
     })
     ra : string;
 

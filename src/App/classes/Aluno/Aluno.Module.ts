@@ -3,7 +3,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { AlunoController } from "./Aluno.Controller";
 import { AlunoService } from "./Aluno.Service";
 import { AlunoRepository } from "./Aluno.Repository";
-import { AlunoModel } from "../Model/AlunoModel";
+import { AlunoModel } from "../../Model/Aluno.Model";
 
 
 
