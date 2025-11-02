@@ -87,7 +87,7 @@ export class AlunoController {
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async get(
         @Param("Id", ParseIntPipe) id : number,
-        @Query("BuscaImagem", new DefaultValuePipe(true), ParseBoolPipe) getImage : boolean
+        @Query("BuscaImagem", , ParseBoolPipe) getImage : boolean
     ) : Promise<ApiResponseInterface>{
         try{
 

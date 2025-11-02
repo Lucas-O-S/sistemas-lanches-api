@@ -111,7 +111,7 @@ export class LancheController{
     @ApiResponse({status: 200, description: "Busca Concluida"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async getAllDelivered(
-        @Query("FiltrarPor", ParseBoolPipe) delived : boolean
+        @Query("FiltrarPor", new DefaultValuePipe(false), ParseBoolPipe) delived : boolean
      ) : Promise<ApiResponseInterface>{
         try{
 
