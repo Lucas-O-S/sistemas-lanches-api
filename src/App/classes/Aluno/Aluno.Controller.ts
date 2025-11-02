@@ -1,12 +1,10 @@
-import { Body, Controller, DefaultValuePipe, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AlunoService } from "./Aluno.Service";
 import { AlunoDto } from "./dto/aluno.dto";
 import { ApiResponseInterface } from "../../Interface/ApiResponseInterface";
-import { Result } from "tedious/lib/token/helpers";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AlunoSchema } from "./Schemas/AlunoSchema";
-import { AlunoModel } from "src/App/Model/Aluno.Model";
 
 
 @Controller("aluno")
@@ -42,7 +40,7 @@ export class AlunoController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao registrar aluno.',
                 error: error.message || error,
             }
 
@@ -76,7 +74,7 @@ export class AlunoController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao registrar aluno.',
                 error: error.message || error,
             }
 
@@ -104,7 +102,7 @@ export class AlunoController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar buscar usuário.',
+                message: 'Erro ao buscar aluno.',
                 error: error.message || error,
             }
 
@@ -131,10 +129,40 @@ export class AlunoController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao buscar usuários.',
+                message: 'Erro ao buscar aluno.',
                 error: error.message || error,
             }
 
         }
+    }
+
+    @Delete(":id")
+    @ApiResponse({status: 200, description: "Deleção Concluida"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async delete(
+        @Param("id", ParseIntPipe) id : number
+    ) : Promise<ApiResponseInterface>{
+
+        try{
+
+            const result = await this.service.delete(id);
+
+            return {
+                status: 200,
+                message: 'Aluno deletado com sucesso',
+                dataUnit: result
+            }
+
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao deletar aluno.',
+                error: error.message || error,
+            }
+
+        }
+
+
     }
 }

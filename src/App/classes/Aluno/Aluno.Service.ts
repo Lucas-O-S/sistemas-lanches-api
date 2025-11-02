@@ -37,4 +37,11 @@ export class AlunoService {
         
     }
 
+    public async delete(id : number) : Promise<Boolean>{
+        
+        if (!(await this.repository.get(id))) throw new Error("Não existe este registro no banco");
+        
+        return await this.repository.delete(id);
+    }
+
 }

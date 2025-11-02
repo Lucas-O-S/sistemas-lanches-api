@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors } from "@nestjs/common";
 import { LancheService } from "./Lanche.Service";
 import { ApiTags, ApiResponse, ApiBody, ApiConsumes } from "@nestjs/swagger";
 import { LancheSchema } from "./Schema/Lanche.Schema";
@@ -33,7 +33,7 @@ export class LancheController{
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao registrar lanche.',
                 error: error.message || error,
             }
 
@@ -66,7 +66,7 @@ export class LancheController{
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao atualizar lanche.',
                 error: error.message || error,
             }
 
@@ -96,7 +96,7 @@ export class LancheController{
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao buscar lanche.',
                 error: error.message || error,
             }
 
@@ -124,7 +124,37 @@ export class LancheController{
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuário.',
+                message: 'Erro ao buscar lanches.',
+                error: error.message || error,
+            }
+
+        }
+
+
+    }
+
+    @Delete(":id")
+    @ApiResponse({status: 200, description: "Deleção Concluida"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async delete(
+        @Param("id", ParseIntPipe) id : number
+    ) : Promise<ApiResponseInterface>{
+
+        try{
+
+            const result = await this.service.delete(id);
+
+            return {
+                status: 200,
+                message: 'Lanche do aluno deletado com sucesso',
+                dataUnit: result
+            }
+
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao deletar lanche.',
                 error: error.message || error,
             }
 

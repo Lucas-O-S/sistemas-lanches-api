@@ -37,5 +37,10 @@ export class AlunoRepository {
     }
 
     
+    async delete(id : number) : Promise<boolean>{
+            
+        return (await this.model.destroy({where: {id : id}})) > 0;
+    
+    }
 
 }
