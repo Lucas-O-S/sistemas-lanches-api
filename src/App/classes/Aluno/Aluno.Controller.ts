@@ -3,8 +3,9 @@ import { ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/sw
 import { AlunoService } from "./Aluno.Service";
 import { AlunoDto } from "./dto/aluno.dto";
 import { ApiResponseInterface } from "../../Interface/ApiResponseInterface";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { FileInterceptor} from "@nestjs/platform-express";
 import { AlunoSchema } from "./Schemas/AlunoSchema";
+import { ImageInterceptorRules } from "src/App/Utils/ImagemFiltters";
 
 
 @Controller("aluno")
@@ -18,7 +19,7 @@ export class AlunoController {
     @ApiBody(AlunoSchema)
     @ApiResponse({status: 201, description: "Aluno criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    @UseInterceptors(FileInterceptor('imagem'))
+    @UseInterceptors(ImageInterceptorRules)
     async create(
         @Body() dto: AlunoDto,
         @UploadedFile() file: Express.Multer.File
@@ -52,7 +53,7 @@ export class AlunoController {
     @ApiBody(AlunoSchema)
     @ApiResponse({status: 200, description: "Aluno atualizado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    @UseInterceptors(FileInterceptor('imagem'))
+    @UseInterceptors(ImageInterceptorRules)
     async update(
         @Param("Id", ParseIntPipe) id : number,
          @Body() dto: AlunoDto,
@@ -87,7 +88,7 @@ export class AlunoController {
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async get(
         @Param("Id", ParseIntPipe) id : number,
-        @Query("BuscaImagem", , ParseBoolPipe) getImage : boolean
+        @Query("BuscaImagem", new DefaultValuePipe(true), ParseBoolPipe) getImage : boolean
     ) : Promise<ApiResponseInterface>{
         try{
 
