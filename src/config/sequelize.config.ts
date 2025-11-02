@@ -13,11 +13,14 @@ export const sequelizeConfig: SequelizeModuleOptions = {
     dialect: 'mssql',
     autoLoadModels: true,
     synchronize: true,
+    timezone : "-03:00",
     dialectOptions: {
     options: {
         encrypt: false,              
         trustServerCertificate: true
-    }
+    },
+    useUTC: false
+
   }
     
 };

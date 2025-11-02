@@ -1,4 +1,4 @@
-import { AllowNull, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { AlunoModel } from "./Aluno.Model";
 
 
@@ -18,7 +18,7 @@ export class LancheModel extends Model<LancheModel>{
     id : number;
 
     @Column({
-        type: DataType.DATEONLY,
+        type: DataType.STRING(10),
         allowNull: false
     })
     dataLiberacao: string;
@@ -31,6 +31,8 @@ export class LancheModel extends Model<LancheModel>{
     alunoId : number;
 
 
+    @BelongsTo(() => AlunoModel)
+    aluno : AlunoModel;
 
 
 }
