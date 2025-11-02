@@ -10,6 +10,10 @@ export const LancheSchema = {
         alunoId: {
           type: 'number',
           example: '1'
+        },
+        entregreue: {
+          type: "boolean",
+          example: false
         }
       },
     },

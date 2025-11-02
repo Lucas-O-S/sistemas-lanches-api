@@ -46,7 +46,13 @@ export class LancheService{
     }
 
     public async getAll() : Promise<LancheDto[]>{
+
         return await this.repository.getAll();
+    
+    }
+
+    public async getAllDelivered(Delivered ) : Promise<LancheModel[]>{
+        return await this.repository.getAllDelivered(Delivered);
     }
 
     public async delete(id : number) : Promise<Boolean>{
@@ -55,5 +61,15 @@ export class LancheService{
         
         return await this.repository.delete(id);
     }
+
+    public async deliverLunch(id : number) : Promise<boolean>{
+
+        const lanche = await this.repository.get(id);
+        
+        if(!lanche) throw new Error("Lanche não encontrado");
+        
+        return await this.repository.deliverLunch(lanche.dataLiberacao, lanche.alunoId);
+    }
+
 
 }

@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Put, Query, UseInterceptors } from "@nestjs/common";
 import { LancheService } from "./Lanche.Service";
-import { ApiTags, ApiResponse, ApiBody, ApiConsumes } from "@nestjs/swagger";
-import { LancheSchema } from "./Schema/Lanche.Schema";
+import { ApiTags, ApiResponse, ApiBody, ApiConsumes, ApiQuery } from "@nestjs/swagger";
+import { LancheSchemaCreate } from "./Schema/Lanche.SchemaCreate";
 import { LancheDto } from "./dto/Lanche.dto";
 import { ApiResponseInterface } from "src/App/Interface/ApiResponseInterface";
 import { LancheModel } from "src/App/Model/Lanche.Model";
@@ -16,7 +16,7 @@ export class LancheController{
     @Post()
     @ApiResponse({status: 201, description: "Lanche do aluno criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    @ApiBody(LancheSchema)
+    @ApiBody(LancheSchemaCreate)
     async create(@Body() dto : LancheDto) : Promise<ApiResponseInterface>{
 
         try{
@@ -46,8 +46,8 @@ export class LancheController{
     @Put(":id")
     @ApiResponse({status: 200, description: "Lanche do aluno atualizado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    @ApiBody(LancheSchema)
-    async updtate(
+    @ApiBody(LancheSchemaCreate)
+    async update(
         @Body() dto : LancheDto,
         @Param("id", ParseIntPipe) id : number
     ) : Promise<ApiResponseInterface>{
@@ -74,6 +74,68 @@ export class LancheController{
 
 
     }
+
+    @Patch(":id")
+    @ApiResponse({status: 200, description: "Lanche do aluno atualizado com sucesso"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async deliverLunch(
+        @Param("id", ParseIntPipe) id : number
+    ) : Promise<ApiResponseInterface>{
+
+        try{
+
+            const result = await this.service.deliverLunch(id);
+
+            return {
+                status: 200,
+                message: 'Lanche do aluno atualizado com sucesso',
+                dataUnit: result,
+            }
+
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao atualizar lanche.',
+                error: error.message || error,
+            }
+
+        }
+
+
+    }
+
+    
+    @Get("filtro-entregue")
+    @ApiQuery({ name: 'FiltrarPor', required: false, type: Boolean, description: 'busca lanches entregues ou não, padrão falso' })
+    @ApiResponse({status: 200, description: "Busca Concluida"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    async getAllDelivered(
+        @Query("FiltrarPor", ParseBoolPipe) delived : boolean
+     ) : Promise<ApiResponseInterface>{
+        try{
+
+            const result = await this.service.getAllDelivered(delived);
+
+            return {
+                status: 200,
+                message: 'Busca realizada com sucesso',
+                dataUnit: result
+            }
+
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao buscar lanches.',
+                error: error.message || error,
+            }
+
+        }
+
+
+    }
+
 
     @Get(":id")
     @ApiResponse({status: 200, description: "Busca Concluida"})
@@ -104,7 +166,8 @@ export class LancheController{
 
 
     }
- 
+
+
     @Get()
     @ApiResponse({status: 200, description: "Busca Concluida"})
     @ApiResponse({status: 500, description: "Erro na requisição"})

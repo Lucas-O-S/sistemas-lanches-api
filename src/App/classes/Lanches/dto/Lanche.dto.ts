@@ -18,6 +18,10 @@ export class LancheDto{
     @Type(() => Number) 
     alunoId : number;
 
+    @ApiProperty()
+    @IsNotEmpty({ message: "Status de Entregue não pode ser vazio" })
+    entregue : boolean = false;
+
 
 
 }

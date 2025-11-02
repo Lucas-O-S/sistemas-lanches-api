@@ -43,6 +43,29 @@ export class LancheRepository{
     
     }
 
+    async deliverLunch(dataLiberacao : string, alunoId : number) : Promise<boolean>{
+        
+        const [affectedRows] = await this.model.update(
+            {entregue: true},
+            {where:{
+                dataLiberacao : dataLiberacao,
+                alunoId : alunoId,
+                entregue: false
+            }}
+        );
+        
+        return affectedRows > 0;
+    }
+
+    async getAllDelivered(delivered : boolean) : Promise<LancheModel[]>{
+        return await this.model.findAll({
+            where: {
+                entregue: delivered
+            }
+        })
+    }
+
+
 
     
 

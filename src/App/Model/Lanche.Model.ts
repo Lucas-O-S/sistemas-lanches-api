@@ -35,4 +35,11 @@ export class LancheModel extends Model<LancheModel>{
     aluno : AlunoModel;
 
 
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false
+    })
+    entregue : boolean;
+
+
 }
