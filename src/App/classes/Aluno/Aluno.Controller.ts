@@ -124,7 +124,7 @@ export class AlunoController {
             return {
                 status: 200,
                 message: 'Busca Concluida.',
-                dataUnit: result,
+                data: result,
             } ;
         }
         catch(error){

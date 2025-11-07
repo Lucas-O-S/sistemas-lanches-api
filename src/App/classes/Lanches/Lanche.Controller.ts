@@ -120,7 +120,7 @@ export class LancheController{
             return {
                 status: 200,
                 message: 'Busca realizada com sucesso',
-                dataUnit: result
+                data: result
             }
 
         }
