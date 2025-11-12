@@ -5,6 +5,9 @@ import { LancheSchemaCreate } from "./Schema/Lanche.SchemaCreate";
 import { LancheDto } from "./dto/Lanche.dto";
 import { ApiResponseInterface } from "src/App/Interface/ApiResponseInterface";
 import { LancheModel } from "src/App/Model/Lanche.Model";
+import { LancheSchemaUpdate } from "./Schema/Lanche.SchemaUpdate";
+import { DATEONLY } from "sequelize";
+import { ParseDatePipe } from "src/App/Pipes/ParseDatePipe";
 
 
 @Controller("lanche")
@@ -46,7 +49,7 @@ export class LancheController{
     @Put(":id")
     @ApiResponse({status: 200, description: "Lanche do aluno atualizado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    @ApiBody(LancheSchemaCreate)
+    @ApiBody(LancheSchemaUpdate)
     async update(
         @Body() dto : LancheDto,
         @Param("id", ParseIntPipe) id : number
@@ -108,14 +111,18 @@ export class LancheController{
     
     @Get("filtro-entregue")
     @ApiQuery({ name: 'FiltrarPor', required: false, type: Boolean, description: 'busca lanches entregues ou não, padrão falso' })
+    @ApiQuery({ name: 'dataEntrega', required: false, schema : {type: "string", format: 'date', example: '2025-11-12'}, description: 'busca lanches com base na data' })
     @ApiResponse({status: 200, description: "Busca Concluida"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async getAllDelivered(
-        @Query("FiltrarPor", new DefaultValuePipe(false), ParseBoolPipe) delived : boolean
+        @Query("FiltrarPor", new DefaultValuePipe(false), ParseBoolPipe) delived : boolean,
+        @Query("dataEntrega", new DefaultValuePipe(""), ParseDatePipe) deliverDate : string
      ) : Promise<ApiResponseInterface>{
         try{
 
-            const result = await this.service.getAllDelivered(delived);
+            console.log(deliverDate)
+
+            const result = await this.service.getAllDelivered(delived, deliverDate);
 
             return {
                 status: 200,

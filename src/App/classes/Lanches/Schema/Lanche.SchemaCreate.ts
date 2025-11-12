@@ -10,6 +10,10 @@ export const LancheSchemaCreate = {
         alunoId: {
           type: 'number',
           example: '1'
+        },
+        quantidade: {
+          type: 'number',
+          example: '1'
         }
       },
     },

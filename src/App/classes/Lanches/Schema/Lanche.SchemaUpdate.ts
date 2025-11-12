@@ -1,5 +1,5 @@
 
-export const LancheSchema = {
+export const LancheSchemaUpdate = {
     schema: {
       type: 'object',
       properties: {
@@ -11,7 +11,11 @@ export const LancheSchema = {
           type: 'number',
           example: '1'
         },
-        entregreue: {
+        quantidade: {
+          type: 'number',
+          example: '1'
+        },
+        entregue: {
           type: "boolean",
           example: false
         }

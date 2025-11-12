@@ -1,5 +1,6 @@
 import { AllowNull, BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { AlunoModel } from "./Aluno.Model";
+import { Type } from "class-transformer";
 
 
 @Table({
@@ -40,6 +41,12 @@ export class LancheModel extends Model<LancheModel>{
         allowNull: false
     })
     entregue : boolean;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    quantidade: number;
 
 
 }

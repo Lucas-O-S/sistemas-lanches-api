@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsDateString, IsInt, IsNotEmpty } from "class-validator";
+import { IsDate, IsDateString, IsInt, IsNotEmpty, Max, Min } from "class-validator";
 import { Type } from "class-transformer";
 
 
@@ -17,6 +17,14 @@ export class LancheDto{
     @IsInt({ message: "Aluno não é um id válido" })
     @Type(() => Number) 
     alunoId : number;
+
+    @ApiProperty()
+    @IsNotEmpty({message : "quantidade não pode estar vazia"})
+    @Max(3)
+    @Min(1)
+    @IsInt({ message: "Qunatidade não é válida" })
+    @Type(() => Number) 
+    quantidade : number;
 
     @ApiProperty()
     @IsNotEmpty({ message: "Status de Entregue não pode ser vazio" })

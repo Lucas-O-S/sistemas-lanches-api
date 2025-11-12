@@ -2,6 +2,8 @@ import { LancheModel } from "src/App/Model/Lanche.Model";
 import { LancheDto } from "./dto/Lanche.dto";
 import { InjectModel } from "@nestjs/sequelize";
 import { where } from "sequelize";
+import { Result } from "tedious/lib/token/helpers";
+import { format } from 'date-fns';
 
 
 
@@ -57,12 +59,23 @@ export class LancheRepository{
         return affectedRows > 0;
     }
 
-    async getAllDelivered(delivered : boolean) : Promise<LancheModel[]>{
-        return await this.model.findAll({
-            where: {
-                entregue: delivered
-            }
-        })
+    async getAllDelivered(delivered : boolean, deliverDate : string = null) : Promise<LancheModel[]>{
+        console.log(deliverDate)
+
+        const Result = !deliverDate ?
+            await this.model.findAll({
+                where: {
+                    entregue: delivered
+                }}) :
+            await this.model.findAll({
+                where: {
+                    entregue: delivered,
+                    dataLiberacao : deliverDate
+                }})
+
+        return Result
+            
+        
     }
 
 

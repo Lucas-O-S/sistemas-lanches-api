@@ -51,8 +51,8 @@ export class LancheService{
     
     }
 
-    public async getAllDelivered(Delivered ) : Promise<LancheModel[]>{
-        return await this.repository.getAllDelivered(Delivered);
+    public async getAllDelivered(Delivered : boolean = false, deliverDate : string = null ) : Promise<LancheModel[]>{
+        return await this.repository.getAllDelivered(Delivered, deliverDate);
     }
 
     public async delete(id : number) : Promise<Boolean>{
